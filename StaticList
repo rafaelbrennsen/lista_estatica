@@ -1,0 +1,99 @@
+public class StaticList {
+    private int[] data;
+    private int size;
+    private int count;
+
+    public StaticList(int size) {
+        this.size = size;
+        this.data = new int[size];
+        this.count = 0;
+    }
+    public void clear() {
+        this.count = 0;
+    }
+    public boolean add(int value) {
+        if (isFull()) {
+            return false;
+        }
+        data[count++] = value;
+        return true;
+    }
+    public boolean add(int value, int pos) {
+        if (isFull() || pos < 0 || pos > count) {
+            return false;
+        }
+        for (int i = count; i > pos; i--) {
+            data[i] = data[i - 1];
+        }
+        data[pos] = value;
+        count++;
+        return true;
+    }
+    public boolean remove(int pos) {
+        if (isEmpty() || pos < 0 || pos >= count) {
+            return false;
+        }
+        for (int i = pos; i < count - 1; i++) {
+            data[i] = data[i + 1];
+        }
+        count--;
+        return true;
+    }
+    public boolean isEmpty() {
+        return count == 0;
+    }
+    public boolean isFull() {
+        return count == size;
+    }
+    public boolean setData(int value, int pos) {
+        if (pos < 0 || pos >= count) {
+            return false;
+        }
+        data[pos] = value;
+        return true;
+    }
+    public boolean getData(int pos, int[] result) {
+        if (pos < 0 || pos >= count) {
+            return false;
+        }
+        result[0] = data[pos];
+        return true;
+    }
+    public int getSize() {
+        return count;
+    }
+    public int find(int value) {
+        for (int i = 0; i < count; i++) {
+            if (data[i] == value) {
+                return i;
+            }
+        }
+        return 0; 
+    }
+  // exemplo//
+    public static void main(String[] args) {
+        StaticList list = new StaticList(5);
+        list.add(10);
+        list.add(20);
+        list.add(15, 1);
+        System.out.println("tamanho atual: " + list.getSize());
+        int[] result = new int[1];
+        if (list.getData(1, result)) {
+            System.out.println("elemento na posição 1: " + result[0]); 
+        } else {
+            System.out.println("posição invalida");
+        }
+        if (list.remove(1)) {
+            System.out.println("numero removido da posição 1");
+        } else {
+            System.out.println("falha");
+        }
+        System.out.println("tamanho atual: " + list.getSize());
+        int pos = list.find(20);
+        if (pos != -1) {
+            System.out.println("posição elemento 20: " + pos);
+        } else {
+            System.out.println("elemento não encontrado");
+        }
+    }
+}
